@@ -11,7 +11,7 @@ spl_autoload_register(function ($class_name) {
  
 
 // Define base URL
-const BASE_URL = 'http://localhost:8000/user-crud/'; // sesuaikan dengan nama folder
+const BASE_URL = 'http://localhost:8000/user-crud/'; //  sesuaikan dengan nama folder 
 
 // navigasi config
 const NAV_PAGES = [

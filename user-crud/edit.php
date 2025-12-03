@@ -6,7 +6,7 @@
 
 // get user ID from query parameter
 
-// load user
+// loading user
 
 ?>
 <!DOCTYPE html>

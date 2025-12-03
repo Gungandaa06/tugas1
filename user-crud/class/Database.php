@@ -1,32 +1,29 @@
 <?php
-p
+// class/Database.php
 class Database {
-    
-    // Database connection property
-    public $conn;
+private static $instance = null;
+private $pdo;
 
-    // Constructor to initialize the database connection
 
-    // Establish database connection
-    public function connect() {
-        if(!$this->conn = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)){
-            exit('Connection Failed');
-        }
-        return $this->conn;
+private function __construct($host, $db, $user, $pass) {
+$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+$opts = [
+PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+$this->pdo = new PDO($dsn, $user, $pass, $opts);
+}
 
-    }
-    
-    // Disconnect from the database
-    public function disconnect() {
-        mysqli_close($this->conn);
 
-        //*cara pdo
-        //$this->conn = null;
-    }
-    // Execute a query with optional parameters
-    public function query($sql, $params = []){
-        // Prepare and excute statement, return false for failed query
-        if (!result = mysqli_query())
-    }
+public static function getInstance($host, $db, $user, $pass) {
+if (self::$instance === null) {
+self::$instance = new Database($host, $db, $user, $pass);
+}
+return self::$instance;
+}
 
-}  
+
+public function getConnection() {
+return $this->pdo;
+}
+}

@@ -1,39 +1,43 @@
 <?php
+require_once 'inc/config.php';
+require_once 'class/Database.php';
+$db = Database::getInstance()->getConnection();
 
-// require necessary files
 
-// check if user is logged in
-
+// ambil data
+$stmt = $db->query('SELECT id, nim, nama, angkatan, prodi, foto_path, status FROM mahasiswa ORDER BY id DESC');
+$rows = $stmt->fetchAll();
 ?>
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
-  <link rel="stylesheet" href="css/style.css">
+<meta charset="utf-8">
+<title>Daftar Mahasiswa</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Home</h1>
-  </header>
-  <nav></nav>
-  <main>
-    <section>
-      <h2>Welcome to the Dashboard</h2>
-      <p>This is your dashboard where you can manage your content. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nobis, numquam illum dolor quia sapiente blanditiis possimus magnam fugiat beatae rerum. Nemo quae quas minus velit soluta aperiam aspernatur hic incidunt.</p>
-      <p>Your data:
-        <ul>
-          <li>ID:<?php echo $SESSION </li>
-          <li>Username: </li>
-          <li>Name: </li>
-          <li>City: </li>
-          <li>Join Date: </li>
-          <li>Last Login: </li>
-        </ul>
-      </p>
-    </section>
-  </main>
-  
+<h1>Daftar Mahasiswa</h1>
+<p><a href="create.php">+ Tambah Mahasiswa</a> | <a href="login.php">Login</a></p>
+<table>
+<thead>
+<tr><th>ID</th><th>NIM</th><th>Nama</th><th>Angkatan</th><th>Prodi</th><th>Foto</th><th>Status</th><th>Aksi</th></tr>
+</thead>
+<tbody>
+<?php if (empty($rows)): ?>
+<tr><td colspan="8">Belum ada data.</td></tr>
+<?php else: foreach ($rows as $r): ?>
+<tr>
+<td><?=htmlspecialchars($r['id'])?></td>
+<td><?=htmlspecialchars($r['nim'])?></td>
+<td><?=htmlspecialchars($r['nama'])?></td>
+<td><?=htmlspecialchars($r['angkatan'])?></td>
+<td><?=htmlspecialchars($r['prodi'])?></td>
+<td><?php if ($r['foto_path']): ?><img class="thumb" src="<?=htmlspecialchars($r['foto_path'])?>" alt="foto"><?php else: echo '-'; endif;?></td>
+<td><?=htmlspecialchars($r['status'])?></td>
+<td><a href="edit.php?id=<?=urlencode($r['id'])?>">Edit</a> | <a href="delete.php?id=<?=urlencode($r['id'])?>">Hapus</a></td>
+</tr>
+<?php endforeach; endif; ?>
+</tbody>
+</table>
 </body>
 </html>
